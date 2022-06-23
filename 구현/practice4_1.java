@@ -39,5 +39,6 @@ public class practice4_1 {
         }
 
         System.out.println(coordinate[0] + " " + coordinate[1]);
+        br.close();
     }
 }

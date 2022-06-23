@@ -26,5 +26,6 @@ public class 일이_될_때까지 {
             if(N == 1) break;
         }
         System.out.println(count);
+        br.close();
     }
 }

@@ -53,5 +53,7 @@ public class 숫자_카드_게임 {
     //         result = result > min[i] ? result : min[i];
     //     }
     //     System.out.println(result);
+
+    br.close();
     }
 }

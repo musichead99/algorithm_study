@@ -55,6 +55,6 @@ public class 큰_수의_법칙 {
         }
 
         System.out.println(sum);
-
+        br.close();
     }
 }

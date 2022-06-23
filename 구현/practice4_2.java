@@ -20,5 +20,6 @@ public class practice4_2 {
             }
         }
         System.out.println(count);
+        br.close();
     }
 }

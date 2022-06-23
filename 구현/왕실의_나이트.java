@@ -31,5 +31,6 @@ public class 왕실의_나이트 {
         }
 
         System.out.println(count);
+        br.close();
     }
 }

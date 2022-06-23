@@ -24,5 +24,6 @@ public class practice3_1 {
 
         /* 출력 */
         System.out.println(count);
+        br.close();
     }
 }

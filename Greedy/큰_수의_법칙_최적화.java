@@ -35,5 +35,6 @@ public class 큰_수의_법칙_최적화 {
         sum += (M-count) * second;
 
         System.out.println(sum);
+        br.close();
     }
 }
