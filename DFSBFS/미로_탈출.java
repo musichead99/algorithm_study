@@ -32,6 +32,7 @@ public class 미로_탈출 {
 
         int[][] map = new int[N][M];
 
+        /* 사용자로부터 맵을 입력받아 초기화 */
         for(int i = 0; i < N; i++) {
             String line = br.readLine();
             for(int j = 0; j < M; j++) {
@@ -39,27 +40,39 @@ public class 미로_탈출 {
             }
         }
 
+        /* 방문 함수 초기화 */
         boolean[][] visited = new boolean[N][M];
         for(int i = 0; i < N; i++) {
             Arrays.fill(visited[i], false);
         }
 
+        /* bfs을 통해 길찾기 */
         bfs(map, new Node(0,0), visited);
     }
 
+    /* bfs 함수 */
     private static void bfs(int[][] graph, Node start, boolean[][] visited) {
         Queue<Node> queue = new LinkedList<>();
+
+        /* 시작 노드를 큐에 넣고 시작 지점에 방문표시를 함 */
         queue.add(start);
         visited[start.x][start.y] = true;
+
+        /* 해당 좌표에서 상하좌우를 탐색하기 위한 이동값들 */
         Node[] steps = {new Node(1,0), new Node(-1,0), new Node(0,1), new Node(0,-1)};
 
+        /* bfs 시작 */
         while(!queue.isEmpty()) {
-            Node temp = queue.poll();
+            Node temp = queue.poll(); // queue로부터 노드 꺼내기
 
+            /* 상하좌우 탐색 */
             for(Node step : steps) {
+
+                /* 다음에 이동할 좌표 */
                 int nx = step.x + temp.x;
                 int ny = step.y + temp.y;
 
+                /* 이동할 좌표에 대한 검증(맵을 벗어나지는 않는가, 이동할 수 없는 벽인가, 이미 방문했는가 등) */
                 if(nx < 0 || ny < 0 || nx >= N || ny >= M) {
                     continue;
                 }
@@ -70,6 +83,7 @@ public class 미로_탈출 {
                     continue;
                 }
 
+                /* 검증이 통과되면 해당 좌표에 이동한 거리를 추가, 해당 좌표를 queue에 삽입, 방문표시 */
                 graph[nx][ny] = graph[temp.x][temp.y] + 1;
                 queue.add(new Node(nx, ny));
                 visited[nx][ny] = true;
