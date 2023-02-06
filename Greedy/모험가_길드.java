@@ -29,7 +29,7 @@ public class 모험가_길드 {
         for(int adventurer : adventurers) {
             count++;
 
-            if(adventurer <= count) {
+            if(adventurer <= count) { // 그룹에 참여하는 모험가의 공포도가 그룹원의 수보다 작거나 같다면 그룹을 만든다.
                 result++;
                 count = 0;
             }
