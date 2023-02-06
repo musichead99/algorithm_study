@@ -9,52 +9,46 @@ import java.util.StringTokenizer;
 public class 큰_수의_법칙 {
     public static void main(String[] args) throws IOException {
 
-        /* N, M, K 파싱 */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
 
-        /* N개의 자연수 입력받기 */
-        int[] num = new int[N];
+        /* n(배열의 길이), m(숫자가 더해지는 횟수), k(특정한 인덱스의 수가 연속해서 더해질 수 있는 횟수) 파싱 */
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+
+        /* 배열 입력받기 */
+        int[] arr = new int[n];
         st = new StringTokenizer(br.readLine());
-
-        for(int i = 0; i < N; i++) {
-            num[i] = Integer.parseInt(st.nextToken());
+        for(int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        /* 입력받은 수 정렬 */
-        Arrays.sort(num);
+        /* 큰 수 2개를 찾기 위해 정렬 */
+        Arrays.sort(arr);
 
-        /* 내가 짠 코드 */
-        // int maxIndex = N-1;
-        // int sum = 0;
+        int first = arr[n-1];
+        int second = arr[n-2];
 
-        // for(int i = 0; i < M; i++) {
-        //     for(int j = 0; j < K && i < M; j++, i++) {
-        //         sum += num[maxIndex];
-        //     }
-        //     sum += num[maxIndex-1];
-        // }
-
-        /* 첫 번째로 큰 수와, 두 번째로 큰 수만을 취하여 계산 -> 매번 배열에 인덱스 접근을 하지 않아도 됨 -> 성능증가, 가독성 증가 */
-        int first = num[N-1];
-        int second = num[N-2];
-        int sum = 0;
+        /* 더하기 시작 */
+        int result = 0;
 
         while(true) {
-            for(int i = 0; i < K; i++) {
-                if(M == 0) break;
-                sum += first;
-                M--;
+            for(int i = 0; i < k; i++) {
+                if(m == 0) break;
+
+                result += first;
+                m -= 1;
             }
-            if(M == 0) break;
-            sum += second;
-            M--;
+
+            if(m == 0) break;
+
+            result += second;
+            m -= 1;
         }
 
-        System.out.println(sum);
-        br.close();
+        /* 출력 */
+        System.out.println(result);
+
     }
 }
