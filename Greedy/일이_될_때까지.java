@@ -10,22 +10,23 @@ public class 일이_될_때까지 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        /* n, k 파싱 */
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
         int count = 0;
-        while(true) {
-            if(N % K == 0) {
-                N /= K;
+        
+        /* 내가 풀어 본 예시(그대로 구현) */
+        while(n != 1) {
+            if(n % k == 0) {
+                n /= k;
                 count++;
             } else {
-                N--;
+                n--;
                 count++;
             }
-
-            if(N == 1) break;
         }
+
         System.out.println(count);
-        br.close();
     }
 }
