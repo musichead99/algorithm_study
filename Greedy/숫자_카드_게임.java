@@ -3,6 +3,7 @@ package algorithm_study.Greedy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class 숫자_카드_게임 {
@@ -10,50 +11,31 @@ public class 숫자_카드_게임 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        /* N, M 입력 */
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        /* n, m 파싱 */
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
 
-        /* 카드 입력 */
-        int result = 0;
-        int card[][] = new int[N][M];
-        for(int i = 0; i < N; i++) {
+        /* 카드 파싱 */
+        int[][] cards = new int[n][m];
+
+        for(int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            int min_value = 10001;
-            for(int j = 0; j < M; j++) {
-                card[i][j] = Integer.parseInt(st.nextToken());
-                min_value = Math.min(min_value, card[i][j]);
+
+            for(int j = 0; j < m; j++) {
+                cards[i][j] = Integer.parseInt(st.nextToken());
             }
-            result = Math.max(min_value, result);
+            Arrays.sort(cards[i]); // 각 행의 최소값들을 빠르게 찾기 위한 정렬
         }
-        System.out.println(result);
 
-        /* 내가 작성했던 코드 */
-    //     /* 카드 입력 */
-    //     int card[][] = new int[N][M];
-    //     for(int i = 0; i < N; i++) {
-    //         st = new StringTokenizer(br.readLine());
-    //         for(int j = 0; j < M; j++) {
-    //             card[i][j] = Integer.parseInt(st.nextToken());
-    //         }
-    //     }
+        /* 각 행의 최소값 중 가장 큰 값 찾기 */
+        int value = Integer.MIN_VALUE;
 
-    //     /* 행마다 최소값 구하기 */
-    //     int min[] = {10001, 10001, 10001};
-        
-    //     for(int i = 0; i < N; i++) {
-    //         for(int j = 0; j < M; j++) {
-    //             min[i] = min[i] < card[i][j] ? min[i] : card[i][j];
-    //         }
-    //     }
+        for(int i = 0; i < n; i++) {
+            value = Math.max(value, cards[i][0]);
+        }
 
-    //     /* 그 중 가장 큰 값 찾기 */
-    //     int result = 0;
-    //     for(int i = 0; i < N; i++) {
-    //         result = result > min[i] ? result : min[i];
-    //     }
-    //     System.out.println(result);
+        /* 출력 */
+        System.out.println(value);
 
-    br.close();
     }
 }
