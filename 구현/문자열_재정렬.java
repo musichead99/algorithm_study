@@ -3,29 +3,27 @@ package algorithm_study.구현;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.PriorityQueue;
 
 public class 문자열_재정렬 {
     public static void main(String[] args) throws IOException {
+        PriorityQueue<Character> pq = new PriorityQueue<>();
+        int sum = 0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String sentence = br.readLine();
+        String str = br.readLine();
 
-        /* 알파벳 대문자와 수의 합을 입력받을 변수 선언 */
-        char[] alphabetString = new char[10001];
-        int numSum = 0;
-
-        /* 입력받은 문장을 처음부터 순회 */
-        for(int i = 0; i < sentence.length(); i++) {
-            char temp = sentence.charAt(i);
-
-            if(temp >= 'A' && temp <= 'Z') {
-                alphabetString[i] = temp;
+        for(int i = 0; i < str.length(); i++) {
+            char token = str.charAt(i);
+            if(token >= 'A' && token <= 'Z') {
+                pq.add(token);
             } else {
-                numSum += Character.getNumericValue(temp);
+                sum += Character.getNumericValue(token);
             }
         }
-        Arrays.sort(alphabetString); // 알파벳 정렬
-        String wholeString = new String(alphabetString) + Integer.toString(numSum);
-        System.out.println(wholeString);
+
+        while(!pq.isEmpty()) {
+            System.out.print(pq.poll());
+        }
+        System.out.println(sum);
     }
 }
