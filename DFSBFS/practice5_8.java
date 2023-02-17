@@ -1,40 +1,35 @@
 package algorithm_study.DFSBFS;
 
-import java.util.Arrays;
-
 public class practice5_8 {
     public static void main(String[] args) {
         
-        /* 인접 행렬을 통한 graph생성 */
+        /* 인접 행렬로 그래프 표현 */
         int[][] graph = {
             {},
-            {2, 3, 8},
-            {1, 7},
-            {1, 4, 5},
-            {3, 5},
-            {3, 4},
+            {2,3,8},
+            {1,7},
+            {1,4,5},
+            {3,5},
+            {3,4},
             {7},
-            {2, 6, 8}, 
-            {1, 7}
+            {2,6,8},
+            {1,7}
         };
 
-        /* visited 배열 선언 및 초기화 */
-        boolean[] visited = new boolean[9];
-        Arrays.fill(visited, false);
+        /* 방문한 노드인지를 체크하는 visited 배열 */
+        boolean[] visited = new boolean[graph.length];
 
-        int v = 1;
-
-        dfs(graph, v, visited);
-
+        /* dfs on */
+        dfs(graph, 1, visited);
     }
 
-    /* 재귀를 통한 dfs */
-    private static void dfs(int[][] graph, int v, boolean[] visited) {
-        visited[v] = true;
-        System.out.print(v + " ");
+    /* dfs탐색을 재귀함수로 구현 */
+    public static void dfs(int[][] graph, int n, boolean[] visited) {
+        visited[n] = true;
+        System.out.print(n + " ");
 
-        for(int node : graph[v]) {
-            if(!visited[node]) {
+        for(int node : graph[n]) {
+            if(visited[node] == false) {
                 dfs(graph, node, visited);
             }
         }
