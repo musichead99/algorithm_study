@@ -1,6 +1,5 @@
 package algorithm_study.DFSBFS;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -19,34 +18,28 @@ public class practice5_9 {
             {1, 7}
         };
 
-        /* visited 배열 선언 및 초기화 */
-        boolean[] visited = new boolean[9];
-        Arrays.fill(visited, false);
+        bfs(graph, 1);
 
-        int v = 1;
-
-        bfs(graph, v, visited);
     }
 
-    /* bfs 함수 */
-    private static void bfs(int[][] graph, int v, boolean[] visited) {
-        Queue<Integer> queue = new LinkedList<>();
-        
-        /* 시작 노드를 큐에 넣고 방문처리 */
-        queue.add(v);
-        visited[v] = true;
+    /* bfs 구현 */
+    public static void bfs(int[][] graph, int n) {
+        boolean[] visited = new boolean[graph.length];
+        Queue<Integer> q = new LinkedList<>();
 
-        while(!queue.isEmpty()) {
-            int node = queue.poll();
-            System.out.print(node + " ");
+        q.add(n);
+        visited[n] = true;
 
-            for(int i : graph[node]) {
-                if(!visited[i]) {
-                    queue.add(i);
-                    visited[i] = true;
+        while(!q.isEmpty()) {
+            int tmp = q.poll();
+            System.out.print(tmp + " ");
+
+            for(int node : graph[tmp]) {
+                if(visited[node] == false) {
+                    q.add(node);
+                    visited[node] = true;
                 }
             }
         }
-
     }
 }
