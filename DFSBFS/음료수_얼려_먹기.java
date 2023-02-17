@@ -6,52 +6,56 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class 음료수_얼려_먹기 {
-    private static int N;
-    private static int M;
-    public static void main(String[] args) throws IOException {
+
+    static int n;
+    static int m;
+
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        int[][] map = new int[N][M];
 
-        /* 얼음판 정보 입력받기 */
-        for(int i = 0; i < N; i++) {
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        int[][] map = new int[n][m];
+        /* 얼음 틀 입력받기 */
+        for(int i = 0; i < n; i++) {
             String line = br.readLine();
-            for(int j = 0; j < M; j++) {
+            for(int j = 0; j < m; j++) {
                 map[i][j] = Character.getNumericValue(line.charAt(j));
             }
         }
         br.close();
 
-        /* dfs를 이용해 해당 좌표에 대해 연결된 모든 곳을 탐색 후 count 개수 증가 */
-        int count = 0;
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < M; j++) {
+        int answer = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
                 if(dfs(map, i, j)) {
-                    count++;
+                    answer++;
                 }
             }
         }
 
-        System.out.println(count);
+        System.out.println(answer);
+
     }
 
-    private static boolean dfs(int[][] graph, int i, int j) {
+    public static boolean dfs(int[][] map, int x, int y) {
         
-        /* 파라미터로 받은 좌표가 얼음판의 크기를 넘어가는지 체크 */
-        if(i < 0 || j < 0 || i >= N || j >= M) {
+        /* 현재 좌표가 맵을 벗어날 경우 */
+        if(x <= -1 || y <= -1 || x >= n || y >= n) {
             return false;
         }
-        
-        /* 해당 노드가 방문하지 않았던 노드일 경우 상하좌우 dfs 탐색 */
-        if(graph[i][j] == 0) {
-            graph[i][j] = 1;
-            dfs(graph, i + 1, j);
-            dfs(graph, i - 1, j);
-            dfs(graph, i, j + 1);
-            dfs(graph, i, j - 1);
+
+        /* 만약 이 좌표를 아직 방문하지 않았다면 */
+        if(map[x][y] == 0) {
+            map[x][y] = 1; // 방문표시
+
+            /* 현재 좌표의 상하좌우로 탐색 시작 */
+            dfs(map, x - 1, y);
+            dfs(map, x, y - 1);
+            dfs(map, x + 1, y);
+            dfs(map, x, y + 1);
             return true;
         }
 
