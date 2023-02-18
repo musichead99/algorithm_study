@@ -3,7 +3,6 @@ package algorithm_study.DFSBFS;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -20,76 +19,66 @@ public class 미로_탈출 {
         }
     }
 
-    private static int N;
-    private static int M;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static int n;
+    static int m;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        int[][] map = new int[N][M];
-
-        /* 사용자로부터 맵을 입력받아 초기화 */
-        for(int i = 0; i < N; i++) {
-            String line = br.readLine();
-            for(int j = 0; j < M; j++) {
-                map[i][j] = Character.getNumericValue(line.charAt(j));
+        /* 미로 입력받기 */
+        int[][] map = new int[n + 1][m + 1];
+        for(int i = 0; i < n; i++) {
+            String tmp = br.readLine();
+            for(int j = 0; j < m; j++) {
+                map[i + 1][j + 1] = Character.getNumericValue(tmp.charAt(j));
             }
         }
 
-        /* 방문 함수 초기화 */
-        boolean[][] visited = new boolean[N][M];
-        for(int i = 0; i < N; i++) {
-            Arrays.fill(visited[i], false);
-        }
-
-        /* bfs을 통해 길찾기 */
-        bfs(map, new Node(0,0), visited);
+        /* bfs를 수행한 결과를 출력 */
+        System.out.println(bfs(map, new Node(1, 1)));
     }
 
-    /* bfs 함수 */
-    private static void bfs(int[][] graph, Node start, boolean[][] visited) {
-        Queue<Node> queue = new LinkedList<>();
+    /* bfs를 수행하는 메소드 */
+    public static int bfs(int[][] map, Node start) {
+        Queue<Node> q = new LinkedList<>();
+        q.add(start);
 
-        /* 시작 노드를 큐에 넣고 시작 지점에 방문표시를 함 */
-        queue.add(start);
-        visited[start.x][start.y] = true;
+        while(!q.isEmpty()) {
+            Node tmp = q.poll();
 
-        /* 해당 좌표에서 상하좌우를 탐색하기 위한 이동값들 */
-        Node[] steps = {new Node(1,0), new Node(-1,0), new Node(0,1), new Node(0,-1)};
+            int x = tmp.x;
+            int y = tmp.y;
 
-        /* bfs 시작 */
-        while(!queue.isEmpty()) {
-            Node temp = queue.poll(); // queue로부터 노드 꺼내기
+            /* 현재 좌표를 기준으로 상하좌우의 좌표들을 탐색 */
+            for(int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
 
-            /* 상하좌우 탐색 */
-            for(Node step : steps) {
-
-                /* 다음에 이동할 좌표 */
-                int nx = step.x + temp.x;
-                int ny = step.y + temp.y;
-
-                /* 이동할 좌표에 대한 검증(맵을 벗어나지는 않는가, 이동할 수 없는 벽인가, 이미 방문했는가 등) */
-                if(nx < 0 || ny < 0 || nx >= N || ny >= M) {
-                    continue;
-                }
-                if(graph[nx][ny] == 0) {
-                    continue;
-                }
-                if(visited[nx][ny] == true) {
+                /* 탐색한 좌표가 맵을 벗어난다면 무시 */
+                if(nx < 1 || ny < 1 || nx > n || ny > m) {
                     continue;
                 }
 
-                /* 검증이 통과되면 해당 좌표에 이동한 거리를 추가, 해당 좌표를 queue에 삽입, 방문표시 */
-                graph[nx][ny] = graph[temp.x][temp.y] + 1;
-                queue.add(new Node(nx, ny));
-                visited[nx][ny] = true;
+                /* 탐색한 좌표에 괴물이 있다면 무시 */
+                if(map[nx][ny] == 0) {
+                    continue;
+                }
+
+                /* 좌표의 값이 1(이동 가능한 통로)일 때만 큐에 넣고 거리 값 업데이트 */
+                if(map[nx][ny] == 1) {
+                    q.add(new Node(nx, ny));
+                    map[nx][ny] += map[x][y];
+                }
             }
         }
 
-        System.out.println(graph[N-1][M-1]);
+        /* 탈출 지점까지 계산한 거리값 출력 */
+        return map[n][m];
     }
 }
