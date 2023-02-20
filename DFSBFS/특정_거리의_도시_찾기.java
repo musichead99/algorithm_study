@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -14,39 +13,38 @@ public class 특정_거리의_도시_찾기 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        StringBuilder sb = new StringBuilder();
-        
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-        int X = Integer.parseInt(st.nextToken());
 
-        /* 그래프 입력을 위한 인접 리스트 선언 */
-        List<ArrayList<Integer>> map = new ArrayList<>();
+        int n = Integer.parseInt(st.nextToken()); // 도시의 개수
+        int m = Integer.parseInt(st.nextToken()); // 도로의 개수
+        int k = Integer.parseInt(st.nextToken()); // 거리 정보
+        int x = Integer.parseInt(st.nextToken()); // 출발 도시의 번호
 
-        /* 리스트 초기화 */
-        for(int i = 0; i <= N; i++) {
-            map.add(new ArrayList<Integer>());
+        /* 그래프 초기화 */
+        ArrayList<ArrayList<Integer>> city = new ArrayList<>();
+        for(int i = 0; i <= n; i++) {
+            city.add(new ArrayList<>());
         }
-
-        /* 입력받은 간선 정보를 인접리스트에 추가 */
-        for(int i = 0; i < M; i++) {
+        for(int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            map.get(start).add(end);
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            city.get(a).add(b);
         }
 
-        /* 방문 배열 생성 */
-        int[] visited = new int[N + 1];
+        /* 방문 배열 */
+        int[] visited = new int[n + 1];
         Arrays.fill(visited, -1);
-        
-        bfs(map, X, visited);
 
-        for(int i = 1; i <= N; i++) {
-            if(visited[i] == K) sb.append(i + "\n");
+        bfs(city, x, visited);
+
+        /* 조건을 만족하는 도시의 번호들만 StringBuilder에 추가 */
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < visited.length; i++) {
+            if(visited[i] == k) sb.append(i + "\n");
         }
 
+        /* 조건을 만족하는 도시가 하나도 없다면 -1 출력, 하나라도 있다면 도시 번호 출력 */
         if(sb.length() == 0) {
             System.out.println(-1);
         } else {
@@ -55,18 +53,19 @@ public class 특정_거리의_도시_찾기 {
 
     }
 
-    private static void bfs(List<ArrayList<Integer>> graph, int start, int[] visited) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(start);
+    public static void bfs(ArrayList<ArrayList<Integer>> city, int start, int[] visited) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
         visited[start]++;
 
-        while(!queue.isEmpty()) {
-            int node = queue.poll();
-            
-            for(int i : graph.get(node)) {
-                if(visited[i] == -1) {
-                    visited[i] = visited[node] + 1;
-                    queue.add(i);
+        while(!q.isEmpty()) {
+            int tmp = q.poll();
+
+            for(int node : city.get(tmp)) {
+                /* 방문 배열의 값이 -1일 경우(한 번도 들리지 않았을 경우) */
+                if(visited[node] == -1) {
+                    visited[node] = visited[tmp] + 1; // 출발점으로부터 해당 도시까지 거리값 갱신
+                    q.add(node);
                 }
             }
         }
