@@ -6,34 +6,39 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class 성적이_낮은_순서 {
 
-    static class student {
-        String name;
-        int score;
+class Student implements Comparable<Student> {
+    String name;
+    int score;
 
-        student(String name, int score) {
-            this.name = name;
-            this.score = score;
-        }
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
     }
 
-    public static void main(String[] args) throws NumberFormatException, IOException {
+    @Override
+    public int compareTo(Student o) {
+        return this.score - o.score;
+    }
+}
+public class 성적이_낮은_순서 {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());
-        student[] students = new student[N];
-
-        for(int i = 0; i < N; i++) {
+        int n = Integer.parseInt(br.readLine());
+        
+        Student[] students = new Student[n];
+        for(int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            students[i] = new student(st.nextToken(), Integer.parseInt(st.nextToken()));
+            String name = st.nextToken();
+            int score = Integer.parseInt(st.nextToken());
+            students[i] = new Student(name, score);
         }
 
-        /* 람다 표현식으로 comparator 인터페이스 구현 */
-        Arrays.sort(students, (v1, v2) -> v1.score - v2.score);
+        Arrays.sort(students);
 
-        for(int i = 0; i < N; i++) {
+        for(int i = 0; i < n ; i++) {
             System.out.print(students[i].name + " ");
         }
     }
