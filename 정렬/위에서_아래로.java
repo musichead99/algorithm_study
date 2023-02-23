@@ -11,19 +11,17 @@ public class 위에서_아래로 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        Integer[] arr = new Integer[N];
+        int n = Integer.parseInt(br.readLine());
 
-        for(int i = 0; i < N; i++) {
+        Integer[] arr = new Integer[n];
+        for(int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(br.readLine());
         }
-        br.close();
-
+        
         Arrays.sort(arr, Collections.reverseOrder());
 
-        for(int i = 0; i < N; i++) {
+        for(int i = 0; i < n; i++) {
             System.out.print(arr[i] + " ");
         }
-        
     }
 }
