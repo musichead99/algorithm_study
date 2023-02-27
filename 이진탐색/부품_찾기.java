@@ -7,47 +7,51 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class 부품_찾기 {
-    public static void main(String[] args) throws NumberFormatException, IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        StringTokenizer st;
-        int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
+
+        int n = Integer.parseInt(br.readLine());
+        int[] Parts = new int[n];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++) {
+            Parts[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(Parts); // 이진탐색을 위해선 탐색할 리스트가 정렬되어 있어야 함
+
+        int m = Integer.parseInt(br.readLine());
+        int[] required = new int[m];
 
         st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-        Arrays.sort(arr);
-        
-        int M = Integer.parseInt(br.readLine());
-        int[] list = new int[M];
-
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < M; i++) {
-            list[i] = Integer.parseInt(st.nextToken());
+        for(int i = 0; i < m; i++) {
+            required[i] = Integer.parseInt(st.nextToken());
         }
 
-        for(int part : list) {
-            if(b_search(arr, part, 0, arr.length)) {
-                sb.append("yes ");
+        /* 해당 부품을 찾았다면 "yes" 아니면 "no" */
+        for(int requiredPart : required) {
+            if(binarySearch(0, n, Parts, requiredPart)) {
+                System.out.print("yes ");
             } else {
-                sb.append("no ");
+                System.out.print("no ");
             }
         }
-        System.out.println(sb);
+
     }
 
-    private static boolean b_search(int[] arr, int target, int start, int end) {
-        if(start > end) return false;
+    /* 이진 탐색 알고리즘 */
+    public static boolean binarySearch(int start, int end, int[] Parts, int required) {
+        if(start > end) {
+            return false;
+        }
+
         int mid = (start + end) / 2;
 
-        if(arr[mid] == target) {
+        if(Parts[mid] == required) {
             return true;
-        } else if(arr[mid] > target) {
-            return b_search(arr, target, start, mid - 1);
+        } else if(Parts[mid] > required) {
+            return binarySearch(start, mid - 1, Parts, required);
         } else {
-            return b_search(arr, target, mid + 1, end);
+            return binarySearch(mid + 1, end, Parts, required);
         }
     }
 }
