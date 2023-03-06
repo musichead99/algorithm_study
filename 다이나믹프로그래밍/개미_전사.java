@@ -10,26 +10,26 @@ public class 개미_전사 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
 
         st = new StringTokenizer(br.readLine());
-        int[] storage = new int[N];
+        int[] storage = new int[n];
 
         br.close();
 
-        for(int i = 0; i < N; i++) {
+        for(int i = 0; i < n; i++) {
             storage[i] = Integer.parseInt(st.nextToken());
         }
         
-        int[] dp = new int[N];
+        int[] dp = new int[n];
 
-        dp[0] = storage[0];
-        dp[1] = storage[1];
+        dp[0] = 1;
+        dp[1] = 3;
 
-        for(int i = 2; i < N; i++) {
-            dp[i] = Math.max(dp[i-1], dp[i-2] + storage[i]);
+        for(int i = 2; i < n; i++) {
+            dp[i] = Math.max(dp[i - 2] + storage[i], dp[i - 1]);
         }
 
-        System.out.println(dp[N-1]);
+        System.out.println(dp[n - 1]);
     }
 }
