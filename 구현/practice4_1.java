@@ -19,7 +19,7 @@ public class practice4_1 {
 
     public static int[] x = {1, -1, 0, 0};
     public static int[] y = {0, 0, 1, -1};
-    public static void main(String[] args) throws IOException {\
+    public static void main(String[] args) throws IOException {
         /* 입력값 파싱 */
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
